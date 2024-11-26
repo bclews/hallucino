@@ -7,6 +7,7 @@ import (
 	"os"
 	"sync"
 
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
 	"k8s.io/client-go/kubernetes"
@@ -179,24 +180,62 @@ func retrieveLogs(client *kubernetes.Clientset) error {
 		close(errorChan)
 	}()
 
-	// Process logs and errors
-	for {
-		select {
-		case log, ok := <-logChan:
-			if !ok {
-				// Logs channel closed
-				return nil
+	// Process logs and errors with pretty printing
+	var totalLogs int
+	var logsProcessed sync.WaitGroup
+	logsProcessed.Add(1)
+
+	go func() {
+		defer logsProcessed.Done()
+		for {
+			select {
+			case log, ok := <-logChan:
+				if !ok {
+					// Logs channel closed
+					return
+				}
+				// Pretty print logs
+				prettyPrintLog(log)
+
+				// Store log
+				logStore.AddLog(log)
+				totalLogs++
+			case err, ok := <-errorChan:
+				if !ok {
+					// Error channel closed
+					break
+				}
+				// Print errors in red
+				color.Red("Error: %v", err)
 			}
-			// Store or process log
-			logStore.AddLog(log)
-		case err, ok := <-errorChan:
-			if !ok {
-				// Error channel closed
-				break
-			}
-			logger.Error("Log retrieval error", zap.Error(err))
 		}
-	}
+	}()
+
+	// Wait for log processing to complete
+	logsProcessed.Wait()
+
+	// Print summary
+	color.Green("\n--- Log Retrieval Summary ---")
+	color.Cyan("Namespace: %s", namespace)
+	color.Cyan("Total Logs Retrieved: %d", totalLogs)
+
+	return nil
+}
+
+// prettyPrintLog displays log entries with color-coded formatting
+func prettyPrintLog(log k8s.LogEntry) {
+	// Use different colors for different elements
+	podColor := color.New(color.FgBlue).SprintFunc()
+	containerColor := color.New(color.FgMagenta).SprintFunc()
+	timestampColor := color.New(color.FgGreen).SprintFunc()
+
+	// Format log entry
+	fmt.Printf("%s | %s | %s | %s\n",
+		timestampColor(log.Timestamp),
+		podColor(log.PodName),
+		containerColor(log.Container),
+		log.LogContent,
+	)
 }
 
 func init() {
