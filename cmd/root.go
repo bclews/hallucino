@@ -19,6 +19,7 @@ var (
 	namespace  string
 	pod        string
 	container  string
+	printRaw   bool
 	logger     *zap.Logger
 	logStore   *storage.LogStorage
 )
@@ -27,8 +28,8 @@ var rootCmd = &cobra.Command{
 	Use:           "hallucino",
 	Short:         "Kubernetes Log Retrieval Tool",
 	Long:          "A CLI tool to retrieve logs from Kubernetes clusters with advanced filtering and storage capabilities",
-	SilenceUsage:  true, // Prevents usage info on validation errors
-	SilenceErrors: true, // Prevents default Cobra error output
+	SilenceUsage:  true,
+	SilenceErrors: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// Initialize logger
 		logger, err := zap.NewProduction()
@@ -54,6 +55,11 @@ var rootCmd = &cobra.Command{
 		// Retrieve logs based on input
 		if err := retrieveLogs(client); err != nil {
 			return fmt.Errorf("log retrieval failed: %w", err)
+		}
+
+		// Pretty print logs if print-raw flag is set
+		if printRaw {
+			logStore.PrettyPrintLogs()
 		}
 
 		return nil
@@ -194,8 +200,6 @@ func retrieveLogs(client *kubernetes.Clientset) error {
 					// Logs channel closed
 					return
 				}
-				// Pretty print logs
-				prettyPrintLog(log)
 
 				// Store log
 				logStore.AddLog(log)
@@ -222,27 +226,12 @@ func retrieveLogs(client *kubernetes.Clientset) error {
 	return nil
 }
 
-// prettyPrintLog displays log entries with color-coded formatting
-func prettyPrintLog(log k8s.LogEntry) {
-	// Use different colors for different elements
-	podColor := color.New(color.FgBlue).SprintFunc()
-	containerColor := color.New(color.FgMagenta).SprintFunc()
-	timestampColor := color.New(color.FgGreen).SprintFunc()
-
-	// Format log entry
-	fmt.Printf("%s | %s | %s | %s\n",
-		timestampColor(log.Timestamp),
-		podColor(log.PodName),
-		containerColor(log.Container),
-		log.LogContent,
-	)
-}
-
 func init() {
 	rootCmd.Flags().StringVar(&kubeconfig, "kubeconfig", "", "Path to kubeconfig file")
 	rootCmd.Flags().StringVar(&namespace, "namespace", "", "Kubernetes namespace")
 	rootCmd.Flags().StringVar(&pod, "pod", "", "Specific pod name")
 	rootCmd.Flags().StringVar(&container, "container", "", "Specific container name")
+	rootCmd.Flags().BoolVar(&printRaw, "print-raw", false, "Pretty print retrieved logs")
 }
 
 // Execute adds all child commands to the root command
