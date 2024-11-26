@@ -1,0 +1,51 @@
+# Ignore the build directory
+build/
+*_build/
+
+# Ignore compiled Go object files
+*.o
+_go_obj/
+
+# Ignore executable binaries
+target/.*
+*_bin/
+
+# Ignore Go source files (except for main)
+!main.go
+!*_test*.go
+
+# Ignore dependencies and vendor directories
+vendor/
+node_modules/
+requirement.json
+
+# Ignore Docker build artifacts
+.Dockerfile*
+Dockerfile.*
+
+# Ignore log and cache files
+log/*
+cache/*
+
+# Ignore test results
+testresult*
+
+# Ignore IDE settings and configuration files
+*~/
+
+# Ignore OS-specific files
+.svn/
+.Cvs/
+ CVS/
+
+# Ignore Windows file extensions
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Ignore any operating system specific files
+mac:
+.DS_Store
+windows:
+Thumbs.db
+ehthumbs.db
