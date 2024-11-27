@@ -30,7 +30,7 @@ var (
 var rootCmd = &cobra.Command{
 	Use:           "hallucino",
 	Short:         "Kubernetes Log Retrieval Tool",
-	Long:          "A CLI tool to retrieve logs from Kubernetes clusters with advanced filtering and storage capabilities",
+	Long:          "A command-line tool designed to analyse Kubernetes logs, leveraging LLMs to extract insights, summarise patterns, and identify anomalies.",
 	SilenceUsage:  true,
 	SilenceErrors: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
