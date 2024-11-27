@@ -9,6 +9,7 @@ import (
 	"os"
 	"sync"
 
+	"github.com/charmbracelet/glamour"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
@@ -225,11 +226,6 @@ func retrieveLogs(client *kubernetes.Clientset) error {
 	// Wait for log processing to complete
 	logsProcessed.Wait()
 
-	// Print summary
-	color.Green("\n--- Log Retrieval Summary ---")
-	color.Cyan("Namespace: %s", namespace)
-	color.Cyan("Total Logs Retrieved: %d", totalLogs)
-
 	return nil
 }
 
@@ -259,7 +255,12 @@ func analyzeKubernetsLogs(logStorage *storage.LogStorage) error {
 	}
 
 	// Print or process insights
-	fmt.Println(insights)
+	out, err := glamour.Render(insights, "dark")
+	if err != nil {
+		fmt.Println("Error rendering markdown:", err)
+	} else {
+		fmt.Println(out)
+	}
 
 	return nil
 }
