@@ -87,6 +87,14 @@ Flags:
 
 ```
 
+## ⚙ Configuration
+
+This tool currently supports Azure OpenAI for log analysis. You need to set the following environment variables to use the AI-powered analysis:
+
+- `OPENAI_API_KEY`: Azure OpenAI API Key
+- `OPENAI_ENDPOINT`: Azure OpenAI Endpoint
+- `OPENAI_DEPLOYMENT`: OpenAI Model Deployment Name
+
 ### CLI Flags
 
 - `--kubeconfig` : Path to the Kubernetes configuration file (optional).
