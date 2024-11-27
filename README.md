@@ -1,8 +1,8 @@
-# Intelligent Kubernetes Log Analyser
+# 🚀 Introduction
 
-The **Intelligent Kubernetes Log Analyser** (nicknamed `Hallucino`) is a command-line tool designed to analyse Kubernetes logs, leveraging LLMs to extract insights, summarise patterns, and identify anomalies.
+Hallucino is an intelligent Kubernetes log analyser that harnesses the power of LLMs to provide _some_ insights (_mayyybe_) into your cluster's log data. Named playfully after the tendency of LLMs to "hallucinate", this tool transforms raw log streams into actionable (🤣) intelligence.
 
-I created this project during our two-day "engineering development days" event, intended to build skills, explore interests, and connect with our colleagues. This was my chance to flex some advanced Go muscles, dive deep into concurrency, and master memory management while working on something practical and fun.
+I created this project during our two-day "engineering development days" event at work, that was intended to build skills, explore interests, and connect with our colleagues. This was my chance to flex some advanced Go muscles, dive deep into concurrency, and master memory management while working on something practical and fun.
 
 ## The Wins
 
@@ -20,7 +20,7 @@ Not everything was smooth sailing, of course. Debugging concurrency issues? Yike
 
 Tweaking LLms to handle unstructured log data? Let’s just say it was a learning experience. But that’s the point, right?
 
-## Features
+## ✨ Features
 
 - **Concurrent Log Parsing**: Efficiently retrieves and processes logs from multiple Kubernetes pods and containers using Goroutines.
 - **Log Analysis with AI**: summarises logs, detects common error patterns, and provides actionable insights using Azure's OpenAI.
@@ -50,7 +50,7 @@ Tweaking LLms to handle unstructured log data? Let’s just say it was a learnin
 └── main.go                # Entry point for the application
 ```
 
-## Installation
+## 💾 Installation
 
 1. Clone this repository:
 
