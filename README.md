@@ -4,7 +4,7 @@ Hallucino is an intelligent Kubernetes log analyser that harnesses the power of 
 
 I created this project during our two-day "engineering development days" event at work, that was intended to build skills, explore interests, and connect with our colleagues. This was my chance to flex some advanced Go muscles, dive deep into concurrency, and master memory management while working on something practical and fun.
 
-## The Wins
+## 🏆 The Wins
 
 I am happy with how this project turned out! I definitely leaned on LLMs to scaffold this project, and get me to the learning bits faster. So, a few highlights:
 
@@ -14,7 +14,7 @@ I am happy with how this project turned out! I definitely leaned on LLMs to scaf
 - CLI Design: Crafted a sleek command-line tool with Cobra that’s both powerful and user-friendly.
 - Learning and Growing: Honed my Go skills, explored Kubernetes in depth, and gained a bit more of understanding of AI applications.
 
-## Lessons Learned
+## 🧠 Lessons Learned
 
 Not everything was smooth sailing, of course. Debugging concurrency issues? Yikes. Concurrency is hard, but it’s also incredibly powerful. I learned a lot about Goroutines, channels, and sync.WaitGroup.
 
@@ -28,7 +28,7 @@ Tweaking LLms to handle unstructured log data? Let’s just say it was a learnin
 - **Robust Kubernetes Integration**: Seamlessly interacts with Kubernetes clusters to fetch logs and container details.
 - **Structured Logging**: Built with the `zap` library for performance and readability.
 
-## Project Structure
+## 🗂️ Project Structure
 
 ```
 .
@@ -71,7 +71,7 @@ Tweaking LLms to handle unstructured log data? Let’s just say it was a learnin
    go build -o hallucino
    ```
 
-## Usage
+## 🚀 Usage
 
 ```bash
 Usage:
@@ -95,7 +95,7 @@ Flags:
 - `--container`  : Container name within the pod (optional).
 - `--printRaw`   : Print raw logs instead of AI-processed summaries (optional).
 
-## How It Works
+## ⚙️ How It Works
 
 1. **Kubernetes Log Retrieval**:  
    The tool fetches logs using the Kubernetes client-go library, supporting specific pods and containers or all containers within a namespace.
@@ -109,7 +109,7 @@ Flags:
 4. **Reporting**:  
    Insights are rendered as Markdown and printed to the terminal using the Glamour library for enhanced readability.
 
-## Example Output
+## 📊 Example Output
 
 ### Raw Logs
 
@@ -134,6 +134,6 @@ Flags:
 - Investigate memory-intensive processes in `pod1-container2`.
 ```
 
-## License
+## ⚖️ License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
