@@ -87,7 +87,7 @@ Flags:
 
 ```
 
-## ⚙ Configuration
+### Configuration
 
 This tool currently supports Azure OpenAI for log analysis. You need to set the following environment variables to use the AI-powered analysis:
 
