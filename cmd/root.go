@@ -1,7 +1,9 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"hallucino/internal/analysis"
 	"hallucino/internal/k8s"
 	"hallucino/internal/storage"
 	"os"
@@ -60,6 +62,11 @@ var rootCmd = &cobra.Command{
 		// Pretty print logs if print-raw flag is set
 		if printRaw {
 			logStore.PrettyPrintLogs()
+		} else {
+			// Analyze logs
+			if err := analyzeKubernetsLogs(logStore); err != nil {
+				return fmt.Errorf("log analysis failed: %w", err)
+			}
 		}
 
 		return nil
@@ -222,6 +229,37 @@ func retrieveLogs(client *kubernetes.Clientset) error {
 	color.Green("\n--- Log Retrieval Summary ---")
 	color.Cyan("Namespace: %s", namespace)
 	color.Cyan("Total Logs Retrieved: %d", totalLogs)
+
+	return nil
+}
+
+func analyzeKubernetsLogs(logStorage *storage.LogStorage) error {
+	// Get logs from storage
+	logs := logStorage.GetLogs()
+
+	// Create log analyzer
+	logAnalyzer := analysis.NewLogAnalyzer(logs)
+
+	// Create OpenAI analyzer
+	openaiConfig := analysis.Config{
+		APIKey:         os.Getenv("AZURE_API_KEY"),
+		Endpoint:       os.Getenv("AZURE_API_BASE"),
+		DeploymentName: os.Getenv("AZURE_DEPLOYMENT_NAME"),
+	}
+
+	openaiAnalyzer, err := analysis.NewOpenAIAnalyzer(openaiConfig)
+	if err != nil {
+		return fmt.Errorf("failed to create OpenAI analyzer: %w", err)
+	}
+
+	// Generate insights
+	insights, err := openaiAnalyzer.GenerateInsights(context.Background(), logAnalyzer)
+	if err != nil {
+		return fmt.Errorf("failed to generate insights: %w", err)
+	}
+
+	// Print or process insights
+	fmt.Println(insights)
 
 	return nil
 }
