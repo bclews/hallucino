@@ -4,6 +4,8 @@ Hallucino is an intelligent Kubernetes log analyser that harnesses the power of 
 
 I created this project during our two-day "engineering development days" event at work, that was intended to build skills, explore interests, and connect with our colleagues. This was my chance to flex some advanced Go muscles, dive deep into concurrency, and master memory management while working on something practical and fun.
 
+**Edit**: I have written a [blog post](https://clews.id.au/posts/taming-the-noise-decoding-kubernetes-logs-for-humans/) about this project, detailing the challenges and lessons learned.
+
 ## 🏆 The Wins
 
 I am happy with how this project turned out! I definitely leaned on LLMs to scaffold this project, and get me to the learning bits faster. So, a few highlights:
