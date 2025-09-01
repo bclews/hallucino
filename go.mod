@@ -1,6 +1,6 @@
 module hallucino
 
-go 1.22.4
+go 1.23.0
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/ai/azopenai v0.7.1
@@ -57,7 +57,7 @@ require (
 	github.com/yuin/goldmark-emoji v1.0.1 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/net v0.30.0 // indirect
-	golang.org/x/oauth2 v0.21.0 // indirect
+	golang.org/x/oauth2 v0.27.0 // indirect
 	golang.org/x/sys v0.26.0 // indirect
 	golang.org/x/term v0.25.0 // indirect
 	golang.org/x/text v0.19.0 // indirect
